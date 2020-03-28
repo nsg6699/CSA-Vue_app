@@ -86,7 +86,7 @@
                       </v-card-title>
                       <v-row>
                         <v-col cols="12" sm="^6" md="6" lg="5" style="margin-left:150px;">
-                          &#x20b9; {{ item.price }} !!
+                          &#x20b9; {{ item.price }}
                         </v-col>
                       </v-row>
                       <v-card-actions>
@@ -251,7 +251,7 @@
                         Select
                       </v-btn>
                       <v-btn color="error" small @click="removeCart(item, 'alaCard')" v-else>
-                        Remove 
+                        Remove
                       </v-btn>
                     </v-row>
                   </v-card-actions>
@@ -265,23 +265,34 @@
       </v-col>
       <v-col md="4">
         <v-card flat>
-          <v-card-title class="User-Selection-labels" style="font-size:20px;">User Selection</v-card-title>
+          <v-card-title class="User-Selection-labels">User Selection</v-card-title>
           <v-card-subtitle class="User-Selection-labels" style="font-size:12px;">
-            <h3>CHANNELS SELECTED</h3>
-            <h3>INDIGITAL PACKS : {{ userSelection.inDigital.length }}</h3>
-            <h3>BROADCASTER PACKS : {{ userSelection.broadCast.length }}</h3>
-            <h3>ALACARTE : {{ userSelection.alaCard.length }}</h3>
-            
+            <div>CHANNELS SELECTED</div>
+            <div>INDIGITAL PACKS : {{ userSelection.inDigital.length }}</div>
+            <div>BROADCASTER PACKS : {{ userSelection.broadCast.length }}</div>
+            <div>ALACARTE : {{ userSelection.alaCard.length }}</div>
+            <!-- <div>Totalprice</div> -->
           </v-card-subtitle>
           <hr class="ml-2 mr-2" />
           <v-card-text>
-           
+            <!-- <h6>ssssssssssss</h6> -->
             <!-- ssssssssssssss -->
             <v-expansion-panels>
               <v-expansion-panel>
+
                 <v-expansion-panel-header>INDIGITAL PACKS ({{ userSelection.inDigital.length }})</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  ea commodo consequat.
+                  <v-row v-for="(item,idx) in userSelection.inDigital" :key="idx">
+                    <v-col md="7">
+                      <div style="font-size:16px; color:rgba(133, 50, 142, 1);"> <b>{{item.name}}</b></div>
+                    </v-col>
+                    <v-col>
+                      <b>₹ {{item.price}}</b>
+                    </v-col>
+                    <v-col>
+                      <v-btn color="error" small @click="removeCart(item, 'broadCast')"> X </v-btn>
+                    </v-col>
+                  </v-row>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
@@ -292,7 +303,18 @@
                   BROADCASTER PACKS ({{ userSelection.broadCast.length }})
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  BBBBBBBBBB caster s
+                  <v-row v-for="(item,idx) in userSelection.broadCast" :key="idx">
+                    <v-col md="7">
+                      <div style="font-size:16px; color:rgba(133, 50, 142, 1);"> <b>{{item.name}}</b></div>
+                    </v-col>
+                    <v-col>
+                      <b>₹ {{item.price}}</b>
+                    </v-col>
+                    <v-col>
+                      <!-- ddddddddddddd -->
+                      <v-btn color="error" small @click="removeCart(item, 'broadCast')"> X </v-btn>
+                    </v-col>
+                  </v-row>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
@@ -303,7 +325,17 @@
                   A-LA-CARTE ({{ userSelection.alaCard.length }})
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  Alacar...tt list 
+                  <v-row v-for="(item,idx) in userSelection.alaCard" :key="idx">
+                    <v-col md="7">
+                      <div style="font-size:16px; color:rgba(133, 50, 142, 1);"> <b>{{item.name}}</b></div>
+                    </v-col>
+                    <v-col>
+                      <b>₹ {{item.price}}</b>
+                    </v-col>
+                    <v-col>
+                      <v-btn color="error" small @click="removeCart(item, 'alaCard')"> X </v-btn>
+                    </v-col>
+                  </v-row>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
@@ -318,7 +350,7 @@
             </v-row> -->
           </v-card-text>
         </v-card>
-        <v-col md="4" style="margin-left:200px;">
+          <v-col md="4" style="margin-left:200px;">
  <v-btn class="ml-auto d-block main-button" color="primary white--text text--lighten-1" href="/optimization">Optimize </v-btn>  
   </v-col>
       </v-col>
@@ -564,11 +596,16 @@ export default {
     removeCart(payload, removingType='alaCard'){
       payload.isCart = false;
       if (removingType == 'alaCard') {
-        this.userSelection.alaCard = this.userSelection.alaCard.filter(x => x.id != payload.id)
+        let ala = this.userSelection.alaCard.filter(x => x.id != payload.id)
+        this.userSelection.alaCard = ala
       } else if (removingType == 'broadCast') {
-        this.userSelection.broadCast = this.userSelection.broadCast.filter(x => x.id != payload.id)
+        // not working for delete from side bar TODO
+        let brd = this.userSelection.broadCast.filter(x => x.id != payload.id)
+        this.userSelection.broadCast = brd;
       } else if (removingType == 'inDigital') {
-        this.userSelection.inDigital = this.userSelection.inDigital.filter(x => x.id != payload.id)
+        // not working for delete from side bar TODO
+        let inDigi = this.userSelection.inDigital.filter(x => x.id != payload.id)
+        this.userSelection.inDigital = inDigi
       }
     }
   },
