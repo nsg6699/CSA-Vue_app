@@ -7,12 +7,12 @@
        </router-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-     <router-link to="/optimization">
+     <!-- <router-link to="/optimization">
       <v-badge color="red darken-4" left>
         <template v-slot:badge>{{ getCartList.length }}</template>
         <v-icon color="white lighten-1">mdi-cart</v-icon>
       </v-badge>
-    </router-link>
+    </router-link> -->
      <!-- <v-icon color="white lighten-1 ml-3" @click="logout">mdi-logout</v-icon> -->
      <v-icon color="white lighten-1 ml-3" class="ml-4" style="font-size:2rem;" @click="logout">mdi-logout</v-icon>
   </v-app-bar>
