@@ -107,8 +107,7 @@
           </v-tab-item>
           <v-tab>A-LA-CARTE</v-tab>
           <v-tab-item v-slot:default
-            :search="search" :items-per-page.sync="itemsPerPage"
-            :sort-by="sortBy" :sort-desc="sortDesc">
+           >
           <div class="eb-pending">
       <v-card>
         <v-card-title>
@@ -215,25 +214,38 @@
         </v-card-title>
       </v-card>
           </div>
-            <v-card flat >
-              <v-card-text >
-                <v-row >
-                  <v-col md="4" v-for="(item,idx) in filterChannelList" :key="idx">
-                    <v-card>
-                      <div class="img-fix">
-                        <div class="img-con">
-                          <img :src="item.imageUrl" class="img-w-100" style="width:70px;"/>
-                        </div>
-                      </div>
-                      <v-card-title>
-                        <div align="center" class="body-2 font-weight-medium text-wrap-dots">
-                          {{ item.name }}
-                        </div>
-                      </v-card-title>
-                     <div>
+          <v-data-iterator class="mt-3"
+        :search="search"
+        :items="filterChannelList"
+        :items-per-page.sync="itemsPerPage"
+        :footer-props="{ itemsPerPageOptions }"
+        :sort-by="sortBy"
+        :sort-desc="sortDesc"
+      >
+        <template v-slot:default="props">
+          <v-row>
+            <v-col
+              v-for="(item, i) in props.items"
+              :key="i"
+              cols="5"
+              sm="4"
+              md="4"
+              lg="4"
+            >
+              <v-card class="mx-auto">
+                <div class="img-fix">
+                  <div class="img-con" style="width:100px;">
+                    <img :src="item.imageUrl" class="img-w-100"/>
+                  </div>
+                </div>
+              <v-card-text class="text--primary eb-p0 ctm-pd">
+                <div align="center" class="body-2 font-weight-medium text-wrap-dots">
+                    {{ item.name }}
+                  </div>
+                  <div>
                     <v-row>
                       <v-col cols="12" sm="^6" md="6" lg="7">
-                        <span class="overline text-wrap-dots" style="margin-left:20px;color:black;">
+                        <span class="overline text-wrap-dots">
                            {{ item.genre.name | get5Char}}
                         </span>| 
                         <span class="overline text-wrap-dots">
@@ -245,8 +257,9 @@
                       </v-col>
                     </v-row>
                   </div>
-                  <v-card-actions>
-                    <v-row align="center" justify="center" class="mb-2">
+                </v-card-text>
+                <v-card-actions>
+                  <v-row align="center" justify="center" class="mb-2">
                       <v-btn color="primary" small @click="addCart(item, 'alaCard');" v-if="!item.isCart">
                         Select
                       </v-btn>
@@ -254,12 +267,12 @@
                         Remove
                       </v-btn>
                     </v-row>
-                  </v-card-actions>
-                </v-card>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+        </template>
+      </v-data-iterator>
           </v-tab-item>
         </v-tabs>
       </v-col>
@@ -290,7 +303,7 @@
                       <b>₹ {{item.price}}</b>
                     </v-col>
                     <v-col>
-                      <v-btn color="error" small @click="removeCart(item, 'broadCast')"> X </v-btn>
+                      <v-btn color="error" small @click="removeCart(item, 'inDigital')"> X </v-btn>
                     </v-col>
                   </v-row>
                 </v-expansion-panel-content>
@@ -361,6 +374,7 @@
 import { mapActions } from "vuex";
 import { getGenreChannelsList, getBroadCasterList, getLanguagelsList, getChannelListByRegion , getPacks} from "../services/channel";
 export default {
+   name: "UserList",
   data() {
     return {
       items: [
@@ -375,21 +389,21 @@ export default {
         { message: "Bar" }
       ],
       previewCard: [],
-      tems: [
-        {
-          name:"animalplanet",
-          price: 20,
+      // tems: [
+      //   {
+      //     name:"animalplanet",
+      //     price: 20,
           
-        },
-        {
-          name: "Sony Happy India Pack – 39 ",
-          price: 20
-        },
-        {
-          name: "Sony Happy India Pack – 39",
-          price: 20
-        }
-      ],
+      //   },
+      //   {
+      //     name: "Sony Happy India Pack – 39 ",
+      //     price: 20
+      //   },
+      //   {
+      //     name: "Sony Happy India Pack – 39",
+      //     price: 20
+      //   }
+      // ],
         itemsPerPage: 20,
       itemsPerPageOptions: [20, 40, 60, 80, 100],
       text: "",
