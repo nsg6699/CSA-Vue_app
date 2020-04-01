@@ -8,7 +8,7 @@
         <h2 > <b>Welcome {{name}} !</b> </h2>
   
   </v-col>
-  <v-col md="4" style="margin-left:280px;">
+  <v-col md="4">
     <v-card class="loginmain3"  >
      
 
@@ -30,7 +30,9 @@
           </span>
     </v-card>
   </v-col>
-  
+  <v-col md="2">
+ <v-btn class="ml-auto d-block main-button" color="primary white--text text--lighten-1">Optimize </v-btn>  
+  </v-col>
        </v-row>
         </v-card>
     <v-row>
@@ -105,24 +107,26 @@
           <v-card-text>
             <v-simple-table>
               <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th class="text-left">Channel Name</th>
-                    <th class="text-left">Bouquet Name</th>
-                    <th class="text-left">Total Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="(items,
-                                channelIndex) in optimizeResult.bouquets"
-                    :key="channelIndex"
-                  >
-                    <td>{{ items.bouquetName }}</td>
-                    <td>{{ items.bouquetDescription }}</td>
-                    <td>{{ items.bouquetPrice }}/Month</td>
-                  </tr>
-                </tbody>
+                <div v-if="optimizeResult && optimizeResult.bouquets">
+                  <thead>
+                    <tr>
+                      <th class="text-left">Channel Name</th>
+                      <th class="text-left">Bouquet Name</th>
+                      <th class="text-left">Total Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(items,
+                                  channelIndex) in optimizeResult.bouquets"
+                      :key="channelIndex"
+                    >
+                      <td>{{ items.bouquetName }}</td>
+                      <td>{{ items.bouquetDescription }}</td>
+                      <td>{{ items.bouquetPrice }}/Month</td>
+                    </tr>
+                  </tbody>
+                </div>
               </template>
             </v-simple-table>
             <hr>
@@ -203,6 +207,7 @@ export default {
       pageCount: 1,
       itemsPerPage: 5,
       loading: true,
+      totalPrice: 0,
       columns2: [
         { text: "BouquetName", value: "bouquetname" },
         { text: "price", value: "price" }
@@ -239,17 +244,18 @@ export default {
   },
   methods: {
     addMoreChannels(){
-this.$router.push({
-  name: "addChannel"
-})
+      this.$router.push( { name: "addChannel" } )
     },
-     decimal(value){
+    decimal(value){
       if(typeof(value) != 'string'){
         return parseFloat(value).toFixed(2)
       } else {
         return value;
       }
-    }, 
+    },
+    Checkout() {
+      // not defined error
+    },
     totalWithGST(total_channers_price, gst_price) {
       return total_channers_price + parseInt(gst_price);
     },
@@ -258,8 +264,7 @@ this.$router.push({
       var userData = JSON.parse(localStorage.getItem("in:user"));
       const payload = {
         channelIds: userData.channelIds,
-        // channelIds: [1,2,3,4,7,9,15,13,71,311,328,31,44,264,460,197,198,229,27,154,175,265],
-        quality: "SD",
+        quality: userData.quality,
         region: userData.region
       };
       const result = await getOptimizeAlgoritm(payload);
