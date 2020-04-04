@@ -535,7 +535,7 @@ export default {
       var userData = JSON.parse(localStorage.getItem("in:user"))        
       const payload = {
         customerType:userData.customerType,
-        quality: "SD",
+        quality: userData.quality,
         region: userData.region,
         category:"Dpo"
       };
@@ -548,7 +548,7 @@ export default {
       var userData = JSON.parse(localStorage.getItem("in:user"))        
       const payload = {
         customerType: userData.customerType,
-        quality: "SD",
+        quality: userData.quality,
         region: userData.region,
         category:"broadcaster"
       };
@@ -561,7 +561,7 @@ export default {
       var userData = JSON.parse(localStorage.getItem("in:user"))        
       const payload = {
         customerType:userData.customerType,
-        quality: "SD",
+        quality: userData.quality,
         region: userData.region
       };
       const result = await getChannelListByRegion(payload);

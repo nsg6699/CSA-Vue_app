@@ -8,7 +8,7 @@
         <h2 > <b>Welcome {{name}} !</b> </h2>
   
   </v-col>
-  <v-col md="4">
+  <v-col md="4" style="margin-left:280px;">
     <v-card class="loginmain3"  >
      
 
@@ -30,9 +30,7 @@
           </span>
     </v-card>
   </v-col>
-  <v-col md="2">
- <v-btn class="ml-auto d-block main-button" color="primary white--text text--lighten-1">Optimize </v-btn>  
-  </v-col>
+  
        </v-row>
         </v-card>
     <v-row>
@@ -96,7 +94,7 @@
       </div>
         
       </v-col>
-      <v-col>
+      <v-col style="margin-right:60px;">
         <h3 class="recommended-Packs mt-8 ml-4 mr-4">
           Recommended Packs
           <span class="recommended-Pack-Subtitle">(Optimised pack based on the user’s Current Active Packs ) 
