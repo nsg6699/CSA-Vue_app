@@ -1,12 +1,14 @@
 <template>
   <v-app-bar app color="primary white--text text--lighten-1" light>
-    <v-toolbar-title class="headline">
+  <v-toolbar-title class="headline">
       <router-link to="/">
-       <v-img class="imagelogin" max-width="60%" src="/img/logo1.png" />
-      
+       <v-img style= "margin-left:20px;" class="imagelogin" max-width="60%" src="img/logo.png"/>
        </router-link>
+      
     </v-toolbar-title>
-    <v-spacer></v-spacer>
+    
+     <h1 style="margin-left:600px;"> Channel Selector Application </h1>
+     <v-spacer></v-spacer>
      <!-- <router-link to="/optimization">
       <v-badge color="red darken-4" left>
         <template v-slot:badge>{{ getCartList.length }}</template>

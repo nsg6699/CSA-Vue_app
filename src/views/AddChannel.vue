@@ -2,7 +2,7 @@
   <div class="ml-8 mr-8 py-6">
         <template>
   <v-toolbar class="loginmain1">
-    <v-toolbar-side-icon></v-toolbar-side-icon>
+    <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-card style="padding:0.5rem;" class="mt-1 mb-1 loginmain3">
@@ -17,7 +17,7 @@
           ALACARTE : {{ userSelection.alaCard.length }} 
         </span>
         <span class="ml-12">
-          BROADCASTER PACKS : {{ userSelection.broadCast.length }}            
+          BROADCASTER PACKS : {{ userSelection.broadCast.length }}
         </span>
         <span class="ml-12">
           TOTAL PRICE : 00
@@ -60,7 +60,7 @@
                             Select
                           </v-btn>
                           <v-btn color="error" small @click="removeCart(item, 'inDigital')" v-else>
-                            Remove 
+                            Remove
                           </v-btn>
                         </v-row>
                       </v-card-actions>
@@ -95,7 +95,7 @@
                             Select
                           </v-btn>
                           <v-btn color="error" small @click="removeCart(item, 'broadCast')" v-else>
-                            Remove 
+                            Remove
                           </v-btn>
                         </v-row>
                       </v-card-actions>
@@ -288,8 +288,6 @@
           </v-card-subtitle>
           <hr class="ml-2 mr-2" />
           <v-card-text>
-            <!-- <h6>ssssssssssss</h6> -->
-            <!-- ssssssssssssss -->
             <v-expansion-panels>
               <v-expansion-panel>
 
@@ -363,52 +361,28 @@
             </v-row> -->
           </v-card-text>
         </v-card>
-          <v-col md="4" style="margin-left:200px;">
- <v-btn class="ml-auto d-block main-button" color="primary white--text text--lighten-1" href="/optimization">Optimize </v-btn>  
-  </v-col>
+        <v-col md="4" style="margin-left:200px;">
+          
+          <v-btn class="ml-auto d-block main-button" color="primary white--text text--lighten-1" @click="goToOptimize">Optimize </v-btn>
+          <!-- <v-btn class="ml-auto d-block main-button" color="primary white--text text--lighten-1" href="/optimization">Optimize </v-btn> -->
+        </v-col>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
 import { mapActions } from "vuex";
+import _ from "lodash";
 import { getGenreChannelsList, getBroadCasterList, getLanguagelsList, getChannelListByRegion , getPacks} from "../services/channel";
 export default {
    name: "UserList",
   data() {
     return {
-      items: [
-        {
-          price: 150,
-          channel: "Foundation + English Marathi Hindi Cosmo",
-          NumberOfChannels: 30
-        },
-        { message: "Bar" },
-        { message: "Bar" },
-        { message: "Bar" },
-        { message: "Bar" }
-      ],
       previewCard: [],
-      // tems: [
-      //   {
-      //     name:"animalplanet",
-      //     price: 20,
-          
-      //   },
-      //   {
-      //     name: "Sony Happy India Pack – 39 ",
-      //     price: 20
-      //   },
-      //   {
-      //     name: "Sony Happy India Pack – 39",
-      //     price: 20
-      //   }
-      // ],
-        itemsPerPage: 20,
+      itemsPerPage: 20,
       itemsPerPageOptions: [20, 40, 60, 80, 100],
       text: "",
-      cInfo: this.$route.params.cInfo,
-      region: this.$route.params.region,
+      broadcasterpacks: [],      
       userList: [],
       cartList: [],
       headers: [
@@ -571,6 +545,22 @@ export default {
         this.setChannel(newData);
       }
     },
+    goToOptimize() {
+      const inDigi_id_Ayyray = this.userSelection.inDigital.map(bucket => {
+        return _.map(bucket.channels, "id")
+      })
+      const b_Channles_arrays = this.userSelection.broadCast.map(bucket => {
+        return _.map(bucket.channels, "id")
+      })
+      const inDigi_ChneIds      = _.uniq(_.flatten(inDigi_id_Ayyray))
+      const broadCast_ChanneIds = _.uniq(_.flatten(b_Channles_arrays))
+      const ala_Channl_Array    = _.map(this.userSelection.alaCard, 'id')
+      const uniqSelectedChannels = _.uniq(_.flatten([inDigi_ChneIds, broadCast_ChanneIds, ala_Channl_Array]) )
+      this.$router.push({
+        name: "optimization",
+        params: { uniqSelectedChannels }
+      });
+    },
     async getGenreChannel() {
       const result = await getGenreChannelsList();
       const  data  = result.message;
@@ -613,11 +603,9 @@ export default {
         let ala = this.userSelection.alaCard.filter(x => x.id != payload.id)
         this.userSelection.alaCard = ala
       } else if (removingType == 'broadCast') {
-        // not working for delete from side bar TODO
         let brd = this.userSelection.broadCast.filter(x => x.id != payload.id)
         this.userSelection.broadCast = brd;
       } else if (removingType == 'inDigital') {
-        // not working for delete from side bar TODO
         let inDigi = this.userSelection.inDigital.filter(x => x.id != payload.id)
         this.userSelection.inDigital = inDigi
       }
